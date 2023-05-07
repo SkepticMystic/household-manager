@@ -48,7 +48,7 @@
 <form on:submit|preventDefault={signup}>
   <Label lbl="Email">
     <input
-      class="input"
+      class="input w-64"
       type="email"
       autocomplete="email"
       disabled={!!emailHint}
@@ -57,7 +57,7 @@
   </Label>
   <Label lbl="Password">
     <input
-      class="input"
+      class="input w-64"
       type="password"
       autocomplete="new-password"
       bind:value={password}

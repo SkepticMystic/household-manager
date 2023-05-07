@@ -31,7 +31,12 @@
 
 <form on:submit|preventDefault={forgotPassword}>
   <Label lbl="Email">
-    <input class="input" type="email" autocomplete="email" bind:value={email} />
+    <input
+      class="input w-64"
+      type="email"
+      autocomplete="email"
+      bind:value={email}
+    />
   </Label>
 
   <button

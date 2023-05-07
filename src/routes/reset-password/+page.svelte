@@ -37,7 +37,7 @@
 <form on:submit|preventDefault={resetPassword}>
   <Label lbl="New Password">
     <input
-      class="input"
+      class="input w-64"
       type="password"
       autocomplete="new-password"
       bind:value={newPass}
@@ -45,7 +45,7 @@
   </Label>
   <Label lbl="Confirm Password">
     <input
-      class="input"
+      class="input w-64"
       type="password"
       autocomplete="new-password"
       bind:value={confirmPass}
