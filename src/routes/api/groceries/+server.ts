@@ -6,7 +6,7 @@ import type { RequestHandler } from "./$types";
 import { _idToString, suc } from "$lib/utils";
 
 export const POST: RequestHandler = async ({ locals, request }) => {
-  const [{ team_id }, input] = await Promise.all([
+  const [{ userId, team_id }, input] = await Promise.all([
     getUser(locals),
     Parsers.request(request, createGrocerySchema),
   ]);
@@ -14,6 +14,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
   const grocery = await Groceries.create({
     ...input,
     team_id,
+    createdBy: userId,
   });
 
   return json(suc(_idToString(grocery)));

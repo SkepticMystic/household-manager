@@ -16,6 +16,7 @@ export type CreateGrocery = z.infer<
 
 export type Grocery = CreateGrocery & {
   team_id: string;
+  createdBy: string;
 
   createdAt: Date;
   updatedAt: Date;
@@ -31,6 +32,11 @@ export const Groceries: Model<Grocery> = mongoose.models[modelName] ||
           type: String,
           required: true,
           ref: "Teams",
+        },
+        createdBy: {
+          type: String,
+          required: true,
+          ref: "auth_user",
         },
         name: {
           type: String,
