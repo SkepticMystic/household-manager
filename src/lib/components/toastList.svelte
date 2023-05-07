@@ -8,6 +8,7 @@
     error: "alert-error",
     success: "alert-success",
     info: "alert-info",
+    warning: "alert-warning",
   };
 </script>
 

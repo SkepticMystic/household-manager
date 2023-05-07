@@ -5,7 +5,7 @@ export type Toast = {
   /** Random nanoid generated on addToast. Used to removeToast later */
   id: string;
   message: string;
-  type: "success" | "error" | "info";
+  type: "success" | "error" | "info" | "warning";
   /** How many ms to show for before removing */
   duration_ms?: number;
   /** Only render toast if current $page.url.path.startsWith(route).

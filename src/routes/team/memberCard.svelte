@@ -13,7 +13,7 @@
   export let member: SID<Pick<User, "email" | "role">>;
 
   const { user } = $page.data;
-  const memberIsUser = user.userId === member._id;
+  const memberIsUser = user!.userId === member._id;
 
   let { loadObj } = getProps();
 
@@ -153,7 +153,7 @@
   <button
     class="btn btn-warning"
     class:loading={loadObj["transferOwnership"]}
-    disabled={user.role !== "owner" || memberIsUser || anyLoading}
+    disabled={user?.role !== "owner" || memberIsUser || anyLoading}
     on:click={transferOwnership}
   >
     {#if !loadObj["transferOwnership"]}
