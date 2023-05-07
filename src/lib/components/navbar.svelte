@@ -4,6 +4,7 @@
   import { onMount } from "svelte";
   import Bars3 from "./icons/bars3.svelte";
   import { themeChange } from "theme-change";
+  import { APP_NAME } from "$lib/const";
 
   onMount(() => themeChange(false));
 
@@ -21,16 +22,11 @@
   const routes: Route[] = [
     {
       side: "center",
-      label: "Tasks",
-      href: "/tasks",
+      label: "Groceries",
+      href: "/groceries",
       authed: true,
     },
-    {
-      side: "center",
-      label: "Projects",
-      href: "/projects",
-      authed: true,
-    },
+
     {
       side: "right",
       label: "Team",
@@ -50,6 +46,7 @@
       authed: true,
       admin: true,
     },
+
     {
       side: "right",
       label: "Sign in",
@@ -79,7 +76,7 @@
 
 <nav class="navbar bg-base-100 px-5">
   <div class="navbar-start">
-    <a href="/" class="btn btn-ghost normal-case text-xl">Generic App</a>
+    <a href="/" class="btn btn-ghost normal-case text-xl">{APP_NAME}</a>
   </div>
 
   <div class="navbar-center hidden lg:flex">
