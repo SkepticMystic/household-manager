@@ -1,10 +1,13 @@
-import mongoose from "mongoose";
+import mongoose, { Model } from "mongoose";
 import { z } from "zod";
 
 export const createGrocerySchema = z.object({
   name: z.string().min(1).max(100),
   quantity: z.number().min(1).max(100),
   price: z.number().min(1).optional(),
+
+  purchasedAt: z.date().optional(),
+  purchasedBy: z.string().optional(),
 });
 
 export type CreateGrocery = z.infer<
@@ -14,15 +17,12 @@ export type CreateGrocery = z.infer<
 export type Grocery = CreateGrocery & {
   team_id: string;
 
-  purchasedAt?: Date;
-  purchasedBy?: string;
-
   createdAt: Date;
   updatedAt: Date;
 };
 
 const modelName = "Groceries";
-export const Groceries = mongoose.models[modelName] ||
+export const Groceries: Model<Grocery> = mongoose.models[modelName] ||
   mongoose.model<Grocery>(
     modelName,
     new mongoose.Schema(

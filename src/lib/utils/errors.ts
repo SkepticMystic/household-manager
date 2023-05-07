@@ -13,7 +13,7 @@ export const NOT_FOUND = () => error(404, "Not found");
 export const INTERNAL_SERVER_ERROR = (err: unknown) =>
   error(500, errToString(err));
 
-export const getHTTPErrorMsg = (err: unknown) =>
-  (<HTTPError>err)?.response?.data?.message ?? errToString(err);
+export const getHTTPErrorMsg = (err: unknown): string =>
+  (<HTTPError> err)?.response?.data?.message ?? errToString(err);
 export const getActionErrorMsg = (err: unknown) =>
-  (<ActionError>err)?.response?.data?.error?.message ?? errToString(err);
+  (<ActionError> err)?.response?.data?.error?.message ?? errToString(err);

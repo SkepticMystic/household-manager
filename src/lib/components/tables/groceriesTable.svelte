@@ -1,19 +1,21 @@
-<script>
-  import { groceries } from "$lib/stores/groceries";
+<script lang="ts">
+  import { deleteGrocery, groceries } from "$lib/stores/groceries";
+  import { getProps } from "$lib/utils";
   import { Format } from "$lib/utils/format";
-  import Modal from "../modals/modal.svelte";
+  import { createEventDispatcher } from "svelte";
 
-  let open = true;
+  let { loadObj } = getProps();
+
+  const dispatch = createEventDispatcher();
+
+  const deleteGroceryWrapper = async (grocery_id: string) => {
+    loadObj["delete"] = true;
+    await deleteGrocery(grocery_id);
+    loadObj = {};
+  };
+
+  $: anyLoading = Object.keys(loadObj).length > 0;
 </script>
-
-{#if open}
-  <Modal bind:open>
-    <p class="text-center text-3xl">Welcome to Zolos Jobs!</p>
-    <p class="text-center text-3xl">Welcome to Zolos Jobs!</p>
-    <p class="text-center text-3xl">Welcome to Zolos Jobs!</p>
-    <p class="text-center text-3xl">Welcome to Zolos Jobs!</p>
-  </Modal>
-{/if}
 
 <table class="min-w-full divide-y divide-base-300">
   <thead>
@@ -43,18 +45,21 @@
         Bought
       </th>
 
-      <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0">
-        <span class="sr-only">Edit</span>
+      <th
+        scope="col"
+        class="py-3.5 pl-3 pr-4 sm:pr-0 text-sm font-semibold text-right"
+      >
+        Actions
       </th>
     </tr>
   </thead>
   <tbody class="divide-y divide-base-200">
-    {#each $groceries as { name, quantity, price, purchasedBy, purchasedAt }}
+    {#each $groceries as { _id, name, quantity, price, purchasedBy, purchasedAt }}
       <tr>
         <td
-          class="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium sm:w-auto sm:max-w-none sm:pl-0"
+          class="w-full max-w-0 py-3 pl-4 pr-3 text-sm font-medium sm:w-auto sm:max-w-none sm:pl-0"
         >
-          {name}
+          <span>{name}</span>
           <dl class="font-normal lg:hidden">
             <dd class="mt-1 truncate text-gray-700">{quantity}</dd>
 
@@ -63,19 +68,37 @@
             </dd>
           </dl>
         </td>
-        <td class="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">
+        <td class="hidden px-3 py-3 text-sm text-gray-500 lg:table-cell">
           {quantity}
         </td>
 
-        <td class="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">
+        <td class="hidden px-3 py-3 text-sm text-gray-500 sm:table-cell">
           {price ? Format.currency.EUR(price) : "-"}
         </td>
 
-        <td class="px-3 py-4 text-sm text-gray-500">
+        <td class="px-3 py-3 text-sm text-gray-500">
           {purchasedAt ? "✅" : "❌"}
         </td>
-        <td class="py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-          <a href="#" class="text-indigo-600 hover:text-indigo-900"> Edit</a>
+        <td class="py-3 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
+          <button
+            class="btn btn-sm btn-square btn-ghost"
+            disabled={anyLoading}
+            title="Edit"
+            on:click={() => dispatch("modify", _id)}
+          >
+            ✏️
+          </button>
+          <button
+            class="btn btn-sm btn-square btn-ghost"
+            class:loading={loadObj["delete"]}
+            disabled={anyLoading}
+            title="Delete"
+            on:click={() => deleteGroceryWrapper(_id)}
+          >
+            {#if !loadObj["delete"]}
+              🗑️
+            {/if}
+          </button>
         </td>
       </tr>
     {/each}
