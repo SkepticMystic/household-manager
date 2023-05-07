@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .input {
+    @apply input-bordered;
+  }
+  .select {
+    @apply select-bordered;
+  }
+
+  .btn {
+  }
+
+  .link {
+    @apply no-underline link-hover;
+  }
+}
