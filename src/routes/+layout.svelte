@@ -26,7 +26,7 @@
   <Navbar />
 </header>
 
-<main class="mx-14 my-4">
+<main class="lg:mx-14 md:mx-9 sm:mx-6 mx-2 my-4">
   <slot />
 </main>
 
