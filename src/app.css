@@ -16,4 +16,8 @@
   .link {
     @apply no-underline link-hover;
   }
+
+  table tbody tr {
+    @apply hover:bg-base-200;
+  }
 }

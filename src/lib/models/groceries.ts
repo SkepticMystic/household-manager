@@ -1,3 +1,4 @@
+import { toDateSchema } from "$lib/schema";
 import mongoose, { Model } from "mongoose";
 import { z } from "zod";
 
@@ -6,7 +7,7 @@ export const createGrocerySchema = z.object({
   quantity: z.number().min(1).max(100),
   price: z.number().min(1).optional(),
 
-  purchasedAt: z.date().optional(),
+  purchasedAt: toDateSchema.nullable().optional(),
   purchasedBy: z.string().optional(),
 });
 

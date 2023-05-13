@@ -54,13 +54,13 @@
 
   <div class="flex flex-wrap gap-2 justify-between mt-5 mb-3">
     <button
-      class="btn btn-primary"
-      class:loading={loadObj["update"]}
+      class="btn btn-error"
+      class:loading={loadObj["delete"]}
       disabled={anyLoading}
-      on:click={update}
+      on:click={deleteThisGrocery}
     >
-      {#if !loadObj["update"]}
-        Update
+      {#if !loadObj["delete"]}
+        Delete
       {/if}
     </button>
 
@@ -73,13 +73,13 @@
     </button>
 
     <button
-      class="btn btn-error"
-      class:loading={loadObj["delete"]}
+      class="btn btn-primary"
+      class:loading={loadObj["update"]}
       disabled={anyLoading}
-      on:click={deleteThisGrocery}
+      on:click={update}
     >
-      {#if !loadObj["delete"]}
-        Delete
+      {#if !loadObj["update"]}
+        Update
       {/if}
     </button>
   </div>

@@ -10,7 +10,7 @@ export const PUT: RequestHandler = async ({ locals, request, params }) => {
     getUser(locals),
     Parsers.request(
       request,
-      createGrocerySchema,
+      createGrocerySchema.partial(),
     ),
   ]);
 

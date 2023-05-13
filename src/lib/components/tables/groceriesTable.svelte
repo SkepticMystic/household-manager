@@ -1,5 +1,9 @@
 <script lang="ts">
-  import { deleteGrocery, groceries } from "$lib/stores/groceries";
+  import {
+    deleteGrocery,
+    groceries,
+    updateGrocery,
+  } from "$lib/stores/groceries";
   import { getProps } from "$lib/utils";
   import { Format } from "$lib/utils/format";
   import { createEventDispatcher } from "svelte";
@@ -13,6 +17,15 @@
     await deleteGrocery(grocery_id);
     loadObj = {};
   };
+
+  // Sort purchased groceries to the bottom, then sort by createdAt
+  $: sortedGroceries = $groceries.sort((a, b) => {
+    if (a.purchasedAt === b.purchasedAt) {
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    } else {
+      return a.purchasedAt ? 1 : -1;
+    }
+  });
 
   $: anyLoading = Object.keys(loadObj).length > 0;
 </script>
@@ -54,12 +67,12 @@
     </tr>
   </thead>
   <tbody class="divide-y divide-base-200">
-    {#each $groceries as { _id, name, quantity, price, purchasedBy, purchasedAt }}
+    {#each sortedGroceries as { _id, name, quantity, price, purchasedBy, purchasedAt }}
       <tr>
         <td
           class="w-full max-w-0 py-3 pl-4 pr-3 text-sm font-medium sm:w-auto sm:max-w-none sm:pl-0"
         >
-          <span>{name}</span>
+          <span class:line-through={purchasedAt}>{name}</span>
           <dl class="font-normal lg:hidden">
             <dd class="mt-1 truncate text-gray-700">{quantity}</dd>
 
@@ -77,7 +90,20 @@
         </td>
 
         <td class="px-3 py-3 text-sm text-gray-500">
-          {purchasedAt ? "✅" : "❌"}
+          <button
+            class="btn btn-sm btn-ghost btn-square"
+            class:loading={loadObj["bought"]}
+            disabled={anyLoading}
+            title="Mark as bought"
+            on:click={() =>
+              updateGrocery(_id, {
+                purchasedAt: purchasedAt ? null : new Date(),
+              })}
+          >
+            {#if !loadObj["bought"]}
+              {purchasedAt ? "✅" : "❌"}
+            {/if}
+          </button>
         </td>
         <td class="py-3 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
           <button

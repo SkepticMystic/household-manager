@@ -35,6 +35,7 @@ export const createGrocery = async (
         addToast({
           type: "success",
           message: "Grocery created!",
+          duration_ms: 3_000,
         });
       }
     } else {
@@ -62,7 +63,7 @@ export const createGrocery = async (
 
 export const updateGrocery = async (
   grocery_id: string,
-  grocery: Grocery,
+  grocery: Partial<Grocery>,
   opts?: Opts,
 ) => {
   const { toast } = Object.assign({ ...DEFAULT_OPTS }, opts ?? {});
@@ -81,6 +82,7 @@ export const updateGrocery = async (
         addToast({
           type: "success",
           message: "Grocery updated!",
+          duration_ms: 3_000,
         });
       }
     } else {

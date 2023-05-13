@@ -33,6 +33,14 @@
 
 <div class="flex flex-wrap gap-2 justify-between mt-5 mb-3">
   <button
+    class="btn btn-warning"
+    disabled={loading}
+    on:click={() => dispatch("close")}
+  >
+    Cancel
+  </button>
+
+  <button
     class="btn btn-primary"
     class:loading
     disabled={loading}
@@ -41,14 +49,6 @@
     {#if !loading}
       Create
     {/if}
-  </button>
-
-  <button
-    class="btn btn-warning"
-    disabled={loading}
-    on:click={() => dispatch("close")}
-  >
-    Cancel
   </button>
 </div>
 
