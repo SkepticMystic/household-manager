@@ -6,6 +6,7 @@
   import { page } from "$app/stores";
   import axios from "axios";
   import { groceries } from "$lib/stores/groceries";
+  import { chores } from "$lib/stores/chores";
 
   let loading = true;
 
@@ -17,6 +18,7 @@
     console.log(data);
 
     $groceries = data.groceries;
+    $chores = data.chores;
 
     loading = false;
   });

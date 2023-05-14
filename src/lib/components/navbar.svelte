@@ -26,6 +26,12 @@
       href: "/groceries",
       authed: true,
     },
+    {
+      side: "center",
+      label: "Chores",
+      href: "/chores",
+      authed: true,
+    },
 
     {
       side: "right",

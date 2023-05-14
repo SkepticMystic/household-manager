@@ -9,7 +9,10 @@
 
       <div class="flex flex-wrap justify-center gap-5 my-14">
         <a href="/groceries">
-          <button class="btn btn-secondary">Groceries</button>
+          <button class="btn btn-primary">Groceries</button>
+        </a>
+        <a href="/chores">
+          <button class="btn btn-secondary">Chores</button>
         </a>
       </div>
     </div>

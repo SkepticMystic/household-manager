@@ -1,5 +1,5 @@
 import type { Result, SID } from "$lib/interfaces";
-import type { Chore } from "$lib/models/chores";
+import type { CreateChore, DatabaseChore } from "$lib/models/chores";
 import type { CreateGrocery, Grocery } from "$lib/models/groceries";
 import { err } from "$lib/utils";
 import { getHTTPErrorMsg } from "$lib/utils/errors";
@@ -17,7 +17,7 @@ export const STORE_MAP = {
     singular: "Grocery",
   },
   chores: {
-    store: writable<SID<Chore>[]>([]),
+    store: writable<SID<DatabaseChore>[]>([]),
     singular: "Chore",
   },
 } satisfies Record<
@@ -31,8 +31,8 @@ interface StoreItems {
     return: Grocery;
   };
   chores: {
-    create: Chore;
-    return: Chore;
+    create: CreateChore;
+    return: DatabaseChore;
   };
 }
 
