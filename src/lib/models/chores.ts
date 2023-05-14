@@ -6,9 +6,9 @@ import { z } from "zod";
 
 export const choreSchema = z.object({
   area: z.enum(CHORES_CONST.AREAS),
-  name: z.string(),
+  name: z.string().min(1, { message: "Name must be at least 1 character" }),
 
-  frequency_days: z.number(),
+  frequency_days: z.number().min(1, { message: "Must be at least 1 day" }),
   lastCompletedAt: toDateSchema.optional(),
 });
 

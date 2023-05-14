@@ -11,3 +11,8 @@ export type Result<
 
 export type SID<T> = T & { _id: string };
 export type OID<T> = T & { _id: ObjectId };
+
+export type Sort<T extends string = string> = {
+  by: T;
+  in: -1 | 1;
+};

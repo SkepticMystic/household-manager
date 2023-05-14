@@ -22,4 +22,4 @@ export const getChoreNextDueDate = (
 export const getChoreNextDueFraction = (
   nextDue: Date,
   frequency_days: number,
-) => 1 - (nextDue.getTime() - Date.now()) / (ONE_DAY_MS * frequency_days);
+) => (nextDue.getTime() - Date.now()) / (ONE_DAY_MS * frequency_days);

@@ -43,6 +43,7 @@
 <ChoresTable
   hide_columns={["area"]}
   tableChores={$chores.filter((c) => c.area === area)}
+  on:create={() => (opens.create = true)}
   on:modify={(e) => {
     chore_id = e.detail;
     opens.update = true;

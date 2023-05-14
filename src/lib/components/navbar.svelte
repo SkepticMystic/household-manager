@@ -91,7 +91,7 @@
         {#if showRoute(user, r, "center")}
           {@const { href, label } = r}
           <li>
-            <a class="link" {href}>{label}</a>
+            <a class="link link-primary font-semibold" {href}>{label}</a>
           </li>
         {/if}
       {/each}
@@ -116,14 +116,16 @@
           {#if showRoute(user, r)}
             {@const { href, label } = r}
             <li>
-              <a class="link" {href}>{label}</a>
+              <a class="link link-primary font-semibold" {href}>{label}</a>
             </li>
           {/if}
         {/each}
 
         {#if user}
           <li>
-            <button class="link" on:click={signout}> Sign out </button>
+            <button class="link link-primary font-semibold" on:click={signout}>
+              Sign out
+            </button>
           </li>
         {/if}
       </ul>
@@ -145,7 +147,7 @@
         {#if showRoute(user, r, "right")}
           {@const { href, label } = r}
           <li>
-            <a class="link" {href}>{label}</a>
+            <a class="link link-primary font-semibold" {href}>{label}</a>
           </li>
         {/if}
       {/each}

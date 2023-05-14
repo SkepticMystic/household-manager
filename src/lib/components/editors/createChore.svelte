@@ -1,16 +1,17 @@
 <script lang="ts">
-  import type { CreateChore } from "$lib/models/chores";
+  import type { Chore, CreateChore } from "$lib/models/chores";
   import { chores } from "$lib/stores/chores";
   import { getProps } from "$lib/utils";
   import { createEventDispatcher } from "svelte";
   import ResultText from "../resultText.svelte";
   import ChoreEditor from "./choreEditor.svelte";
+  import { page } from "$app/stores";
 
   let { loading, err } = getProps();
 
   let chore: CreateChore = {
     name: "",
-    area: "kitchen",
+    area: ($page.params.area as Chore["area"] | undefined) ?? "kitchen",
     frequency_days: 0,
   };
 

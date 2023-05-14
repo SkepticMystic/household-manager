@@ -6,16 +6,20 @@ export const CHORES_CONST = {
     "bathroom",
     "store_room",
     "garden",
+    "bruno",
+    "general",
   ] as const,
 };
 
 const AREA_LABELS: Record<typeof CHORES_CONST.AREAS[number], string> = {
-  kitchen: "Kitchen",
-  living_room: "Living Room",
-  bedroom: "Bedroom",
-  bathroom: "Bathroom",
-  store_room: "Store Room",
-  garden: "Garden",
+  kitchen: "🍽️ Kitchen",
+  living_room: "🛋️ Living Room",
+  bedroom: "🛌 Bedroom",
+  bathroom: "🚿 Bathroom",
+  store_room: "📦 Store Room",
+  garden: "🌱 Garden",
+  bruno: "🐶 Bruno",
+  general: "🏠 General",
 };
 
 export const CHORE_LABELS = {

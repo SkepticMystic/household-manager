@@ -1,12 +1,15 @@
 <script lang="ts">
-  import { CHORES_CONST } from "$lib/const/chores";
+  import { CHORES_CONST, CHORE_LABELS } from "$lib/const/chores";
   import type { CreateChore } from "$lib/models/chores";
   import { createEventDispatcher } from "svelte";
   import Label from "../label.svelte";
+  import { page } from "$app/stores";
 
   export let chore: CreateChore;
 
   const dispatch = createEventDispatcher();
+
+  const specifiedArea = $page.params.area;
 </script>
 
 <svelte:window
@@ -17,15 +20,20 @@
 />
 
 <Label lbl="Area">
-  <select autofocus class="select" bind:value={chore.area}>
+  <select autofocus={!specifiedArea} class="select" bind:value={chore.area}>
     {#each CHORES_CONST.AREAS as area}
-      <option value={area}>{area}</option>
+      <option value={area}>{CHORE_LABELS.AREAS[area]}</option>
     {/each}
   </select>
 </Label>
 
 <Label lbl="Name">
-  <input type="text" class="input" bind:value={chore.name} />
+  <input
+    autofocus={!!specifiedArea}
+    type="text"
+    class="input"
+    bind:value={chore.name}
+  />
 </Label>
 
 <Label lbl="Frequency (Days)">

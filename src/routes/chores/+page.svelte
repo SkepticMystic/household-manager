@@ -37,6 +37,7 @@
 
 <ChoresTable
   tableChores={$chores}
+  on:create={() => (opens.create = true)}
   on:modify={(e) => {
     chore_id = e.detail;
     opens.update = true;
