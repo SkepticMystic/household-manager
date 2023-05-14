@@ -18,7 +18,7 @@ export const chores = {
     createStoreItem(
       "chores",
       chore,
-      Object.assign({ toast: ["suc"] }, opts ?? {}),
+      opts,
     ),
 
   update: (
@@ -30,13 +30,13 @@ export const chores = {
       "chores",
       chore_id,
       chore,
-      Object.assign({ toast: ["suc"] }, opts ?? {}),
+      opts,
     ),
 
   delete: (chore_id: string, opts?: ModifyStoreItemOptions) =>
     deleteStoreItem(
       "chores",
       chore_id,
-      Object.assign({ toast: ["suc"] }, opts ?? {}),
+      opts,
     ),
 };

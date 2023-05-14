@@ -7,18 +7,33 @@
   import axios from "axios";
   import { groceries } from "$lib/stores/groceries";
   import { chores } from "$lib/stores/chores";
+  import { teamMembers } from "$lib/stores/teamMembers";
+  import type { Grocery } from "$lib/models/groceries";
+  import type { DatabaseChore } from "$lib/models/chores";
+  import type { SID } from "$lib/interfaces";
+  import type { DatabaseBudgetItem } from "$lib/models/budgetItems";
+  import { budgetItems } from "$lib/stores/budgetItems";
+  import { STORE_MAP } from "$lib/stores";
 
   let loading = true;
 
   onMount(async () => {
     if (!$page.data.user) return (loading = false);
 
-    const { data } = await axios.get("/api/load");
+    const { data } = await axios.get<{
+      groceries: SID<Grocery>[];
+      chores: SID<DatabaseChore>[];
+      budgetItems: SID<DatabaseBudgetItem>[];
+      teamMembers: SID<Lucia.UserAttributes>[];
+    }>("/api/load");
 
-    console.log(data);
+    $groceries = data.groceries.map(STORE_MAP.groceries.unserialize);
+    $chores = data.chores.map(STORE_MAP.chores.unserialize);
+    $budgetItems = data.budgetItems.map(STORE_MAP.budgetItems.unserialize);
 
-    $groceries = data.groceries;
-    $chores = data.chores;
+    $teamMembers = data.teamMembers;
+
+    console.log({ $groceries, $chores, $budgetItems, $teamMembers });
 
     loading = false;
   });

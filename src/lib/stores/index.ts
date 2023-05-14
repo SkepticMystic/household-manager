@@ -1,28 +1,58 @@
 import type { Result, SID } from "$lib/interfaces";
+import type {
+  CreateBudgetItem,
+  DatabaseBudgetItem,
+} from "$lib/models/budgetItems";
 import type { CreateChore, DatabaseChore } from "$lib/models/chores";
 import type { CreateGrocery, Grocery } from "$lib/models/groceries";
 import { err } from "$lib/utils";
 import { getHTTPErrorMsg } from "$lib/utils/errors";
 import axios from "axios";
 import { type Writable, writable } from "svelte/store";
-
 import { addToast } from "./toast";
 
-const resources = ["groceries", "chores"] as const;
+const resources = ["groceries", "chores", "budgetItems"] as const;
 type Resource = typeof resources[number];
 
 export const STORE_MAP = {
   groceries: {
     store: writable<SID<Grocery>[]>([]),
     singular: "Grocery",
+    unserialize: (g: SID<Grocery>) => ({
+      ...g,
+      createdAt: new Date(g.createdAt),
+      updatedAt: new Date(g.updatedAt),
+      purchasedAt: g.purchasedAt ? new Date(g.purchasedAt) : undefined,
+    }),
   },
   chores: {
     store: writable<SID<DatabaseChore>[]>([]),
     singular: "Chore",
+    unserialize: (c: SID<DatabaseChore>) => ({
+      ...c,
+      createdAt: new Date(c.createdAt),
+      updatedAt: new Date(c.updatedAt),
+      lastCompletedAt: c.lastCompletedAt
+        ? new Date(c.lastCompletedAt)
+        : undefined,
+    }),
+  },
+  budgetItems: {
+    store: writable<SID<DatabaseBudgetItem>[]>([]),
+    singular: "Budget Item",
+    unserialize: (b: SID<DatabaseBudgetItem>) => ({
+      ...b,
+      createdAt: new Date(b.createdAt),
+      updatedAt: new Date(b.updatedAt),
+    }),
   },
 } satisfies Record<
   Resource,
-  { store: Writable<any>; singular: string }
+  {
+    store: Writable<any>;
+    singular: string;
+    unserialize: (item: any) => any;
+  }
 >;
 
 interface StoreItems {
@@ -33,6 +63,10 @@ interface StoreItems {
   chores: {
     create: CreateChore;
     return: DatabaseChore;
+  };
+  budgetItems: {
+    create: CreateBudgetItem;
+    return: DatabaseBudgetItem;
   };
 }
 
@@ -49,7 +83,7 @@ export const createStoreItem = async <T extends Resource>(
   item: StoreItems[T]["create"],
   opts?: ModifyStoreItemOptions,
 ) => {
-  const { store, singular } = STORE_MAP[resource];
+  const { store, singular, unserialize } = STORE_MAP[resource];
   const { toast } = Object.assign({ ...DEFAULT_OPTS }, opts ?? {});
 
   try {
@@ -64,7 +98,8 @@ export const createStoreItem = async <T extends Resource>(
     );
 
     if (data.ok) {
-      store.update((old) => [data.data, ...old]);
+      const unserialized = unserialize(data.data);
+      store.update((old) => [unserialized, ...old]);
 
       if (toast.includes("suc")) {
         addToast({
@@ -102,7 +137,7 @@ export const updateStoreItem = async <T extends Resource>(
   item: Partial<StoreItems[T]["create"]>,
   opts?: ModifyStoreItemOptions,
 ) => {
-  const { store, singular } = STORE_MAP[resource];
+  const { store, singular, unserialize } = STORE_MAP[resource];
   const { toast } = Object.assign({ ...DEFAULT_OPTS }, opts ?? {});
 
   try {
@@ -112,8 +147,10 @@ export const updateStoreItem = async <T extends Resource>(
     );
 
     if (data.ok) {
+      const unserialized = unserialize(data.data);
+
       store.update((old) =>
-        old.map((r) => (r._id === item_id ? data.data : r))
+        old.map((r) => (r._id === item_id ? unserialized : r))
       );
 
       if (toast.includes("suc")) {
