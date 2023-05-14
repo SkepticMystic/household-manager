@@ -20,7 +20,7 @@
   </Modal>
 {/if}
 {#if opens["update"] && grocery_id}
-  <Modal title="Create Grocery" on:close={() => close("update")}>
+  <Modal title="Update Grocery" on:close={() => close("update")}>
     <ModifyGrocery {grocery_id} on:close={() => close("update")} />
   </Modal>
 {/if}

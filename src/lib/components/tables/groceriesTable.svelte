@@ -1,9 +1,5 @@
 <script lang="ts">
-  import {
-    deleteGrocery,
-    groceries,
-    updateGrocery,
-  } from "$lib/stores/groceries";
+  import { groceries } from "$lib/stores/groceries";
   import { getProps } from "$lib/utils";
   import { Format } from "$lib/utils/format";
   import { createEventDispatcher } from "svelte";
@@ -12,9 +8,9 @@
 
   const dispatch = createEventDispatcher();
 
-  const deleteGroceryWrapper = async (grocery_id: string) => {
+  const deleteGrocery = async (grocery_id: string) => {
     loadObj["delete"] = true;
-    await deleteGrocery(grocery_id);
+    await groceries.delete(grocery_id);
     loadObj = {};
   };
 
@@ -72,7 +68,14 @@
         <td
           class="w-full max-w-0 py-3 pl-4 pr-3 text-sm font-medium sm:w-auto sm:max-w-none sm:pl-0"
         >
-          <span class:line-through={purchasedAt}>{name}</span>
+          <span class:line-through={purchasedAt}>
+            <button
+              class="link link-primary"
+              on:click={() => dispatch("modify", _id)}
+            >
+              {name}
+            </button>
+          </span>
           <dl class="font-normal lg:hidden">
             <dd class="mt-1 truncate text-gray-700">{quantity}</dd>
 
@@ -96,7 +99,7 @@
             disabled={anyLoading}
             title="Mark as bought"
             on:click={() =>
-              updateGrocery(_id, {
+              groceries.update(_id, {
                 purchasedAt: purchasedAt ? null : new Date(),
               })}
           >
@@ -119,7 +122,7 @@
             class:loading={loadObj["delete"]}
             disabled={anyLoading}
             title="Delete"
-            on:click={() => deleteGroceryWrapper(_id)}
+            on:click={() => deleteGrocery(_id)}
           >
             {#if !loadObj["delete"]}
               🗑️

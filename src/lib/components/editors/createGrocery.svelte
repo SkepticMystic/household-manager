@@ -1,10 +1,10 @@
 <script lang="ts">
   import type { CreateGrocery } from "$lib/models/groceries";
-  import { createGrocery } from "$lib/stores/groceries";
   import { getProps } from "$lib/utils";
   import { createEventDispatcher } from "svelte";
   import GroceryEditor from "./groceryEditor.svelte";
   import ResultText from "../resultText.svelte";
+  import { groceries } from "$lib/stores/groceries";
 
   let { loading, err } = getProps();
 
@@ -17,7 +17,7 @@
 
   const create = async () => {
     loading = true;
-    const res = await createGrocery(grocery, { toast: ["suc"] });
+    const res = await groceries.create(grocery);
     loading = false;
 
     if (res.ok) dispatch("close");
